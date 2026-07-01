@@ -5,20 +5,21 @@
 - [x] Set up Rust project structure and modules
 - [ ] Define core data structures (Repository, Config)
 - [ ] Implement `git init` command
-  - [ ] Create .git directory structure
+  - [ ] Create .git directory structure (currently `.rgit/objects` is created ad-hoc in `main.rs`, not via a real `init` command)
   - [ ] Initialize config file
   - [ ] Create HEAD reference
+- [ ] Wire up CLI argument parsing with `clap` (dependency is added but unused — `main.rs` still hardcodes behavior instead of dispatching subcommands)
 
 ## Phase 2: Object Storage & Add/Commit
 
 - [ ] Implement Git object model
-  - [ ] Blob objects (file contents)
-  - [ ] Tree objects (directory structure)
+  - [x] Blob objects (file contents) — `Blob` struct + `hash()` implemented in `objects.rs`
+  - [~] Tree objects (directory structure) — `Tree` struct, `add`/`order`/`getData`/`hash()` implemented, but nothing builds a `Tree` from an actual directory listing yet
   - [ ] Commit objects (snapshots with metadata)
-- [ ] Implement hashing/serialization for objects
+- [x] Implement hashing/serialization for objects — blob & tree hashing done using SHA-256 (git normally uses SHA-1/SHA-256 mode); object header format (`"<type> <size>\0" + data`) matches real git
 - [ ] Implement `git add` command
   - [ ] Build staging area (index)
-  - [ ] Hash and store blobs
+  - [ ] Hash and store blobs (writing to `.rgit/objects/<hash>` is demoed manually in `main.rs`, not as a reusable `add` operation)
 - [ ] Implement `git commit` command
   - [ ] Create tree from index
   - [ ] Create commit object

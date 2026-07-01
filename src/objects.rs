@@ -1,4 +1,4 @@
-use sha1::{Digest, Sha1};
+use sha2::{Digest, Sha256};
 
 
 struct Blob {
@@ -14,8 +14,8 @@ impl Blob {
         let mut payload = header.into_bytes();
         payload.extend(&self.data);
 
-        let digest = Sha1::digest(&payload);
-        format!("{:x}", digest)
+        let digest = Sha256::digest(&payload);
+        digest.iter().map(|b| format!("{:02x}", b)).collect()
     }
 }
 
@@ -69,7 +69,7 @@ impl Tree {
         let mut payload = header.into_bytes();
         payload.extend(data);
 
-        let digest = Sha1::digest(&payload);
-        format!("{:x}", digest)
+        let digest = Sha256::digest(&payload);
+        digest.iter().map(|b| format!("{:02x}", b)).collect()
     }
 }
